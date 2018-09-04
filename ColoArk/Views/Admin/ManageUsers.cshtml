@@ -1,0 +1,91 @@
+﻿@model IEnumerable<ColoArk.Models.User>
+
+@{
+    ViewData["Title"] = "ManageUsers";
+}
+
+<h2>Manage Users</h2>
+<p>
+    <a asp-action="ImplantTable">Implant Table</a>
+</p>
+
+@{
+    string changeAction = ViewBag.changeAction;
+    switch (changeAction)
+    {
+        case "updated":
+            <div class="alert alert-success alert-auto-remove" role="alert">
+                <p>User updated</p>
+            </div>
+            break;
+    }
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.AuthLevel)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PSN)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Pin)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ImplantID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsDonator)
+            </th>
+            <th>
+                Actions
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AuthLevel)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ID)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PSN)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Pin)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ImplantID)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IsDonator)
+                </td>
+                <td>
+                    <div class="btn-group">
+                        <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Actions <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a asp-controller="Admin" asp-action="EditUser" asp-route-id="@item.ID">Edit</a></li>
+                        </ul>
+                    </div>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

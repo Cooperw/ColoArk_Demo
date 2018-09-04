@@ -1,0 +1,36 @@
+﻿@model List<User>
+
+@{
+    ViewData["Title"] = "ImplantTable";
+}
+
+<h2>Implant Table</h2>
+<p>Paste this in the google data sheet and then update companion app.</p>
+
+<table class="table">
+    <tr>
+        <th>
+            Name
+        </th>
+        <th>
+            PSN
+        </th>
+        <th>
+            ImplantID
+        </th>
+    </tr>
+    @foreach (User user in Model)
+    {
+    <tr>
+        <td>
+            @user.PSN
+        </td>
+        <td>
+            @user.PSN
+        </td>
+        <td>
+            @user.ImplantID
+        </td>
+    </tr>
+    }
+</table>

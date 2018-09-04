@@ -1,0 +1,27 @@
+﻿@model ColoArk.ViewModels.UploadImageViewModel
+
+@{
+    ViewData["Title"] = "UploadImage";
+}
+
+<h2>Upload Image</h2>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="UploadImage" enctype="multipart/form-data" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <input type="file" name="File" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Filename" class="control-label"></label>
+                <input asp-for="Filename" class="form-control" />
+                <span asp-validation-for="Filename" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Upload" class="btn btn-success" />
+            </div>
+        </form>
+    </div>
+</div>

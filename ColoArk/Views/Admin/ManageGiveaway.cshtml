@@ -1,0 +1,158 @@
+﻿@model IEnumerable<ColoArk.Models.GiveawayReceipt>
+
+@{
+    ViewData["Title"] = "ManageGiveaway";
+}
+
+<h2>Manage Giveaway</h2>
+@{
+    if (ViewBag.type == "all")
+    {
+        <a asp-controller="Admin" asp-action="ManageGiveaway">(Show un-delivered)</a>
+    }
+    else
+    {
+        <a asp-controller="Admin" asp-action="ManageGiveaway" asp-route-type="all">(Show all)</a>
+    }
+    <br />
+    <a asp-controller="Admin" asp-action="ManageGiveawayDrops" asp-route-type="all">Manage Drop Table</a>
+
+    string changeAction = ViewBag.changeAction;
+    switch (changeAction)
+    {
+        case "delivered":
+            <div class="alert alert-info alert-auto-remove" role="alert">
+                <p>Prize delivered</p>
+            </div>
+            break;
+    }
+
+
+}
+
+@if (!Model.Any())
+{
+    <p>All prizes are delivered.</p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.ID)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.User)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Description)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Mailbox)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.User.Pin)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.EntryDate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ReadyForPickUpDate)
+                </th>
+                <th>
+                    Status
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ID)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.User.PSN)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Description)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Mailbox.VaultNumber)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.User.Pin)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.EntryDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ReadyForPickUpDate)
+                    </td>
+                    @if (item.IsInMailbox)
+                    {
+                        if (DateTime.Now > item.ReadyForPickUpDate.AddDays(7))
+                        {
+                            //Expired
+                            <td>
+                                <span class="label label-danger">Expired</span>
+                            </td>
+                        }
+                        else
+                        {
+                            //Ready For Pickup
+                            <td>
+                                <span class="label label-success">Ready For Pickup</span>
+                            </td>
+                        }
+
+                    }
+                    else
+                    {
+                        if (item.IsPickedUp)
+                        {
+                            //Picked Up
+                            <td>
+                                <label class="label label-info">Picked Up</label>
+                            </td>
+                        }
+                        else
+                        {
+                            //On Its Way
+                            <td>
+                                <a href="#" class="btn btn-sm btn-warning" data-toggle="modal" data-target="#rfp_@item.ID">Deliver Item</a>
+                            </td>
+                        }
+
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+<!-- PickUp modal -->
+@foreach (var item in Model)
+{
+    <div class="modal fade" id="rfp_@item.ID" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <form method="post" asp-controller="Admin" asp-action="GiveawayReadyForPickup">
+                <input type="hidden" name="id" value="@item.ID" />
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel">Confirm Delivery</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>Please confirm that you have placed @item.Description in vault @item.Mailbox.VaultNumber and set the pin to @item.User.Pin</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Close</button>
+                        <input type="submit" class="btn btn-success btn-sm" value="Delivered">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+}

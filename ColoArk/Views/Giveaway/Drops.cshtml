@@ -1,0 +1,46 @@
+﻿@model IEnumerable<ColoArk.Models.GiveawayDrop>
+
+@{
+    ViewData["Title"] = "ManageGiveawayDrops";
+}
+
+<h2>Possible Giveaway Drops</h2>
+<p>Lower and Higher bounds are the spread of levels/quality of the prize. For quality you have a 30% chance at Ascendant, 30% at Mastercraft, 20% Journeyman, and 20% Apprentice.</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Type)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LowerBound)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.HigherBound)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Type)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LowerBound)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.HigherBound)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

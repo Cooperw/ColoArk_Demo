@@ -1,0 +1,81 @@
+﻿@model ColoArk.ViewModels.EditUserViewModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+<div class="col-md-4 pull-right"></div>
+<div class="col-md-4 pull-left"></div>
+<div class="col-md-4">
+    <h2>Edit</h2>
+
+    <hr />
+    <form asp-action="Edit">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input type="hidden" name="ID" value="@Model.ID" />
+        <div class="form-group">
+            <label asp-for="Email" class="control-label"></label>
+            <input asp-for="Email" class="form-control" disabled />
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="PSN" class="control-label"></label>
+            <input asp-for="PSN" class="form-control" placeholder="PSN" />
+            <span asp-validation-for="PSN" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Pin" class="control-label"></label>
+            @if (Model.Pin != 0)
+            {
+                <input asp-for="Pin" class="form-control" placeholder="****" min="1111" max="9999" />
+            }
+            else
+            {
+                <input asp-for="Pin" class="form-control" placeholder="****" min="1111" max="9999" value="" />
+            }
+            <span asp-validation-for="Pin" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="ImplantID" class="control-label"></label>
+            @if (Model.Pin != 0)
+            {
+                <input asp-for="ImplantID" class="form-control" placeholder="Found in your arm after joining the server." />
+            }
+            else
+            {
+                <input asp-for="ImplantID" class="form-control" placeholder="Found in your arm after joining the server." value="" />
+            }
+            <span asp-validation-for="ImplantID" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="AuthLevel" class="control-label"></label>
+            <input asp-for="AuthLevel" class="form-control" disabled />
+            <span asp-validation-for="AuthLevel" class="text-danger"></span>
+        </div>
+        @if (Model.AuthLevel == ColoArk.Models.User.AuthType.Admin)
+        {
+            <div class="form-group">
+                <label asp-for="Bio" class="control-label"></label>
+                <input asp-for="Bio" class="form-control" placeholder="Public Bio ..." />
+                <span asp-validation-for="Bio" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ProfilePic" class="control-label"></label>
+                <select asp-for="ProfilePic" class="form-control"
+                        asp-items="@(new SelectList(ViewBag.Pictures))">
+                    <option>none</option>
+                </select>
+                <span asp-validation-for="ProfilePic" class="text-danger"></span>
+            </div>
+
+        }
+        <div class="form-group">
+            <input type="submit" value="Save" class="btn btn-success pull-right" />
+        </div>
+    </form>
+
+    <div>
+        <a asp-action="Index">Back to List</a>
+    </div>
+</div>
+
+

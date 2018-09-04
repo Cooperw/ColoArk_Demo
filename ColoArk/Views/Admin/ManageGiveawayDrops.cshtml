@@ -1,0 +1,109 @@
+﻿@model IEnumerable<ColoArk.Models.GiveawayDrop>
+
+@{
+    ViewData["Title"] = "ManageGiveawayDrops";
+}
+
+<h2>Manage Giveaway Drops</h2>
+<p>Lower and Higher bounds are the spread of levels/quality of the prize. For quality you have a 30% chance at Ascendant, 30% at Mastercraft, 20% Journeyman, and 20% Apprentice as long as you set 1-100.</p>
+@{
+    string changeAction = ViewBag.changeAction;
+    switch (changeAction)
+    {
+        case "created":
+            <div class="alert alert-success alert-auto-remove" role="alert">
+                <p>Drop created</p>
+            </div>
+            break;
+        case "updated":
+            <div class="alert alert-success alert-auto-remove" role="alert">
+                <p>Drop updated</p>
+            </div>
+            break;
+        case "deleted":
+            <div class="alert alert-danger alert-auto-remove" role="alert">
+                <p>Drop deleted</p>
+            </div>
+            break;
+    }
+}
+<p>
+    <a asp-action="CreateGiveawayDrop">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Type)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LowerBound)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.HigherBound)
+            </th>
+            <th>
+                Actions
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Type)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LowerBound)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.HigherBound)
+                </td>
+                <td>
+                    <div class="btn-group">
+                        <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Actions <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a asp-controller="Admin" asp-action="EditGiveawayDrop" asp-route-id="@item.ID">Edit</a></li>
+                            <li role="separator" class="divider"></li>
+                            <li><a href="#" data-toggle="modal" data-target="#delete_drop_@item.ID">Delete</a></li>
+                        </ul>
+                    </div>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<!-- Deletion modal -->
+@foreach (var item in Model)
+{
+    <div class="modal fade" id="delete_drop_@item.ID" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <form method="post" asp-controller="Admin" asp-action="DeleteGiveawayDrop">
+                <input type="hidden" name="ID" value="@item.ID" />
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel">Confirm Drop Deletion</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>Please confirm that you'd like to delete <strong>@item.Name</strong></p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Close</button>
+                        <input type="submit" class="btn btn-danger btn-sm" value="Delete">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+}

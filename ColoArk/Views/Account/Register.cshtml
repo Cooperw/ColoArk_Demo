@@ -1,0 +1,51 @@
+﻿@model RegisterViewModel
+@{
+    ViewData["Title"] = "Register";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<div class="col-md-4 pull-left"></div>
+<div class="col-md-4 pull-right"></div>
+<div class="col-md-4">
+    <form asp-route-returnUrl="@ViewData["ReturnUrl"]" method="post">
+        <h4>Create a new account.</h4>
+        <hr />
+        <div asp-validation-summary="All" class="text-danger"></div>
+        <div class="form-group">
+            <label asp-for="Email"></label>
+            <input asp-for="Email" class="form-control" placeholder="example@gmail.com" />
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="PSN" class="control-label"></label>
+            <input asp-for="PSN" class="form-control" placeholder="PSN" />
+            <span asp-validation-for="PSN" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Pin" class="control-label"></label>
+            <input asp-for="Pin" class="form-control" placeholder="****" min="1111" max="9999" value="" />
+            <span asp-validation-for="Pin" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="ImplantID" class="control-label"></label>
+            <input asp-for="ImplantID" class="form-control" placeholder="Found in your arm after joining the server" value="" />
+            <span asp-validation-for="ImplantID" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Password"></label>
+            <input asp-for="Password" class="form-control" placeholder="ColoArk12" />
+            <span asp-validation-for="Password" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="ConfirmPassword"></label>
+            <input asp-for="ConfirmPassword" class="form-control" placeholder="ColoArk12" />
+            <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+        </div>
+        <button type="submit" class="btn btn-success">Register</button>
+    </form>
+</div>
+
+@section Scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}

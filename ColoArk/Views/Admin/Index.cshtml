@@ -1,0 +1,80 @@
+﻿@model List<ColoArk.Models.User>
+@{
+    ViewData["Title"] = "Index";
+}
+
+<!-- About/Information menu -->
+@{
+    string changeAction = ViewBag.changeAction;
+    switch (changeAction)
+    {
+        case "unauth":
+            <div class="alert alert-danger alert-auto-remove" role="alert">
+                <p>You are not authorized to access this service</p>
+            </div>
+            break;
+    }
+}
+<div class="col-md-4 pull-right">
+    <div class="w3-white w3-margin">
+        @{ Html.RenderPartial("_ServerSummary"); }
+        @{ Html.RenderPartial("_Donate"); }
+        <div class="w3-container w3-padding w3-black">
+            <h4>Admin Tools</h4>
+        </div>
+        <ul class="w3-ul w3-hoverable w3-white">
+            <a style="text-decoration: none;" asp-controller="Admin" asp-action="ManagePosts">
+                <li class="w3-padding-16">
+                    <img src="~/images/note.png" alt="Image" class="w3-left w3-margin-right" style="width:50px">
+                    <span class="w3-large">Manage Posts</span>
+                    <br>
+                    <span>Create a new post or announcement.</span>
+                </li>
+            </a>
+            <a style="text-decoration: none;" asp-controller="Admin" asp-action="ManageUsers">
+                <li class="w3-padding-16">
+                    <img src="~/images/survivors.png" alt="Image" class="w3-left w3-margin-right" style="width:50px">
+                    <span class="w3-large">Manage Users</span>
+                    <br>
+                    <span>Manage player data.</span>
+                </li>
+            </a>
+            <a style="text-decoration: none;" asp-controller="Admin" asp-action="ManageGiveaway" asp-route-type="all">
+                <li class="w3-padding-16">
+                    <img src="~/images/gift_box.png" alt="Image" class="w3-left w3-margin-right" style="width:50px">
+                    <span class="w3-large">Manage Giveaway</span>
+                    <br>
+                    <span>Manage giveaway prizes and receipts.</span>
+                </li>
+            </a>
+        </ul>
+    </div>
+</div>
+
+<!-- Blog entries -->
+<div class="col-md-8 pull-left">
+    <!-- Blog entry -->
+    <div class="w3-container w3-white w3-margin w3-padding-large">
+        <div class="w3-center">
+            <h3>Meet Your Admins</h3>
+            <h5><span class="w3-opacity">May 5, 2018</span></h5>
+        </div>
+        <table class="table table-responsive">
+            <tr>
+                @foreach (User admin in Model)
+                {
+                    <td>
+                        <div class="w3-justify">
+                            <img src="~/images/@admin.ProfilePic" alt="AdminPic" class="w3-circle" style="width:100%;max-width:400px">
+                            <p><strong>@admin.PSN</strong></p>
+                            <p>@admin.Bio</p>
+                            <p class="w3-clear"></p>
+                        </div>
+                    </td>
+                }
+            </tr>
+        </table>
+    </div>
+    <hr />
+</div>
+<!-- END BLOG ENTRIES -->

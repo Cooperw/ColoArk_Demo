@@ -1,0 +1,119 @@
+﻿
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Oswald">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open Sans">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="icon" href="~/images/ark_icon.jpg">
+    <style>
+        h1, h2, h3, h4, h5, h6 {
+            font-family: "Oswald"
+        }
+
+        body {
+            font-family: "Open Sans"
+        }
+    </style>
+</head>
+<body>
+    <div class="">
+        <div class="row w3-black">
+            <!-- Image header -->
+            <header class="w3-display-container w3-wide" id="home">
+                <img class="w3-image" src="~/images/ark_header_short.jpg" alt="Ark Logo">
+                <div class="w3-display-left w3-padding-large">
+                    <h1 class="w3-jumbo w3-text-white w3-hide-small"><b>ColoArk</b></h1>
+                    <h3 class="w3-text-white w3-hide-small">Ragnarok PvP</h3>
+                    <h2 class="w3-text-white w3-hide-large"><a asp-controller="Home" asp-action="Index" class="w3-text-white">ColoArk</a></h2>
+                    <h6>
+                        <a asp-controller="Home" asp-action="Index" asp-route-changeAction="underconstruction" class="w3-hide-small btn w3-white w3-padding-large w3-large w3-opacity w3-hover-opacity-off">
+                            SUBSCRIBE
+                        </a>
+                    </h6>
+                </div>
+            </header>
+            <nav class="">
+                <div class="container-fluid">
+                    <div class="col-md-1 pull-left">
+                        <div class="navbar-header">
+                            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                                <span class="sr-only">Toggle navigation</span>
+                                <span class="icon-bar w3-white"></span>
+                                <span class="icon-bar w3-white"></span>
+                                <span class="icon-bar w3-white"></span>
+                            </button>
+                            <a class="navbar-brand" asp-controller="Dashboard" asp-action="Index">@ViewData["AppTitle"]</a>
+                        </div>
+                    </div>
+                    <div class="col-md-8 pull-left">
+
+                        <!-- Collect the nav links, forms, and other content for toggling -->
+                        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                            <ul class="nav navbar-nav">
+                                @{ Html.RenderPartial("_NavLinks"); }
+                            </ul>
+                        </div><!-- /.navbar-collapse -->
+                    </div>
+                    <div class="col-md-2">
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <ul class="nav navbar-nav navbar-right pull-right">
+                                <li class="dropdown">
+                                    <a href="#" class="w3-bar-item w3-button" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">@User.Identity.Name <span class="caret"></span></a>
+                                    <ul class="dropdown-menu">
+                                        <li><a asp-controller="User" asp-action="Index" class="w3-bar-item w3-button pull-left">My Profile</a></li>
+                                        <li>
+                                            <form method="post" asp-controller="Account" asp-action="Logout">
+                                                <button type="submit" class="btn btn-default  w3-button pull-left" style="border:none;padding-left:20px">Logout</button>
+                                            </form>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        }
+                        else
+                        {
+                            <ul class="nav navbar-nav navbar-right pull-right">
+                                <li class="dropdown">
+                                    <a asp-controller="Account" asp-action="Login" class="w3-bar-item w3-button w3-right">Log In</a>
+                                </li>
+                            </ul>
+                        }
+                    </div>
+                </div><!-- /.container-fluid -->
+            </nav>
+        </div>
+        <!-- w3-content defines a container for fixed size centered content,
+        and is wrapped around the whole page content, except for the footer in this example -->
+        <div class="row w3-padding-large">
+            <!-- Grid -->
+            @RenderBody()
+            <!-- END GRID -->
+        </div>
+    </div>
+    <!-- Footer -->
+    <footer class="w3-container w3-dark-grey" style="padding:32px">
+        <a href="#" class="w3-button w3-black w3-padding-large w3-margin-bottom"><i class="fa fa-arrow-up w3-margin-right"></i>To the top</a>
+        <p>&copy; 2018 - ColoArk</p>
+    </footer>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="~/js/alert-auto-dismiss.min.js"></script>
+<script>
+    closeSidebar();
+    function openSidebar() {
+        document.getElementById("mySidebar").style.display = "block";
+    }
+    function closeSidebar() {
+        document.getElementById("mySidebar").style.display = "none";
+    }
+</script>

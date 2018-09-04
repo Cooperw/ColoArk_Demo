@@ -1,0 +1,14 @@
+﻿<li><a asp-controller="Home" asp-action="Index" class="w3-bar-item w3-button">Home</a></li>
+<li><a asp-controller="Home" asp-action="Index" asp-route-type="@Post.PostType.Rules" class="w3-bar-item w3-button">Rules&Info</a></li>
+<li class="dropdown">
+    <a href="#" class="dropdown-toggle w3-bar-item w3-button" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Events</a>
+    <ul class="dropdown-menu">
+        <li><a asp-controller="Giveaway" asp-action="Index" class="w3-bar-item w3-button pull-left">Weekly Giveaway</a></li>
+        <li><a asp-controller="Home" asp-action="Index" asp-route-type="@Post.PostType.ScavengerHunt" class="w3-bar-item w3-button pull-left">Scavenger Hunt</a></li>
+        <li><a asp-controller="Home" asp-action="Index" asp-route-type="@Post.PostType.Labyrinth" class="w3-bar-item w3-button pull-left">Labyrinth</a></li>
+        <li><a asp-controller="Home" asp-action="Index" asp-route-type="@Post.PostType.AdminWar" class="w3-bar-item w3-button pull-left">Admin War</a></li>
+    </ul>
+</li>
+<li><a asp-controller="Home" asp-action="Index" asp-route-changeAction="underconstruction" class="w3-bar-item w3-button">In-Game Store</a></li>
+<li><a asp-controller="Admin" asp-action="Index" class="w3-bar-item w3-button">Admins</a></li>
+<li><a asp-controller="Contact" asp-action="Index" class="w3-bar-item w3-button">Contact</a></li>

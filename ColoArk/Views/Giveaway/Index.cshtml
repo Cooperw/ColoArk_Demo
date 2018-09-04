@@ -1,0 +1,192 @@
+﻿@model List<GiveawayReceipt>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<!-- About/Information menu -->
+<div class="col-md-4 pull-right">
+    @{
+        string changeAction = ViewBag.changeAction;
+        switch (changeAction)
+        {
+            case "entered":
+                <div class="alert alert-success alert-auto-remove" role="alert">
+                    <p>You won something, check it out!</p>
+                </div>
+                break;
+            case "pickedup":
+                <div class="alert alert-success alert-auto-remove" role="alert">
+                    <p>Thank you for picking up your prize</p>
+                </div>
+                break;
+        }
+    }
+    <div class="w3-white w3-margin">
+        <div class="w3-container w3-padding w3-black">
+            <h4>Past Winnings</h4>
+        </div>
+        <ul class="w3-ul w3-hoverable w3-white">
+            @if (Model.Any())
+            {
+                int count = 0;
+                foreach (GiveawayReceipt prize in Model)
+                {
+                    <li class="w3-padding-16">
+                        <span class="w3-large">@prize.Description</span>
+                        <br>
+                        <table class="table table-condensed">
+                            <tr>
+                                <th>
+                                    Status
+                                </th>
+                                @if (prize.IsInMailbox)
+                                {
+                                    if (DateTime.Now > prize.ReadyForPickUpDate.AddDays(7))
+                                    {
+                                        //Expired
+                                        <td>
+                                            <span class="label label-danger">Expired</span>
+                                        </td>
+                                    }
+                                    else
+                                    {
+                                        //Ready For Pickup
+                                        <td>
+                                            <span class="label label-success">Ready For Pickup</span>
+                                            <a href="#" class="btn btn-sm btn-default" data-toggle="modal" data-target="#pickup_@prize.ID">Picked Up Already?</a>
+                                        </td>
+                                    }
+
+                                }
+                                else
+                                {
+                                    if (prize.IsPickedUp)
+                                    {
+                                        //Picked Up
+                                        <td>
+                                            <label class="label label-info">Picked Up</label>
+                                        </td>
+                                    }
+                                    else
+                                    {
+                                        //On Its Way
+                                        <td>
+                                            <label class="label label-warning">On Its Way</label>
+                                        </td>
+                                    }
+
+                                }
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <th>
+                                    Mailbox
+                                </th>
+                                <td>
+                                    @prize.Mailbox.VaultNumber
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>
+                                    Expiration
+                                </th>
+                                <td>
+                                    @prize.ReadyForPickUpDate.AddDays(7).ToString("MMM dd, yyyy")
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>
+                                    Entry Date
+                                </th>
+                                <td>
+                                    @prize.EntryDate.ToString("h:mm tt on MMM dd, yyyy")
+                                </td>
+                            </tr>
+                        </table>
+                    </li>
+                    @if (count == 3)
+                    {
+                        break;
+                    }
+                    else
+                    {
+                        count++;
+                    }
+                }
+            }
+            else
+            {
+                <li class="w3-padding-16">
+                    <span class="w3-large">No winnings yet.</span>
+                    <br>
+                    <span>What are you waiting for? Get some free stuff.</span>
+                </li>
+            }
+        </ul>
+    </div>
+</div>
+
+<!-- Blog entries -->
+<div class="col-md-8 pull-left">
+    @{
+        switch (changeAction)
+        {
+            case "early":
+                <div class="alert alert-danger alert-auto-remove" role="alert">
+                    <p>You need to wait 7 days between entries</p>
+                </div>
+                break;
+        }
+    }
+    <!-- Blog entry 
+    <div class="w3-container w3-white w3-margin w3-padding-large">
+        <div class="w3-center">
+            <h3>Weekly Giveaway</h3>
+            <h5><span class="w3-opacity">May 5, 2018</span></h5>
+        </div>
+
+        <div class="w3-justify">
+            <img src="~/images/dark_arklogo.jpg" alt="Ark Logo" style="width:100%" class="w3-padding-16">
+            <p>
+                Every seven days you can get free stuff by entering our giveaway. Simply select the obelisk you would like to pick up from
+                and the drop table you would like to win prizes from. Everyone is guarenteed a prize. Admins will deliver your prizes to vaults located
+                at your selected obelisk within a few days. The drop table can be viewed
+                <a asp-controller="Giveaway" asp-action="Drops">here</a>. Please make sure to update your pin code in your profile settings so that you
+                can unlock the vault to retrieve your prize.
+            </p>
+            <p>-CWSharkbones</p>
+            <a asp-controller="Giveaway" asp-action="Enter" class="btn btn-success">Enter Giveaway</a>
+            <p class="w3-clear"></p>
+
+        </div>
+    </div>
+    <hr /> -->
+    @Html.Partial("~/Views/Shared/_PostLoop.cshtml", (List<Post>)ViewBag.GiveawayPost)
+</div>
+<!-- END BLOG ENTRIES -->
+
+<!-- PickUp modal -->
+@foreach (var item in Model)
+{
+    <div class="modal fade" id="pickup_@item.ID" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <form method="post" asp-controller="Giveaway" asp-action="ProcessPickup">
+                <input type="hidden" name="id" value="@item.ID" />
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel">Confirm Pickup</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>Please confirm that you have picked up @item.Description from valut @item.Mailbox.VaultNumber</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Close</button>
+                        <input type="submit" class="btn btn-success btn-sm" value="Picked Up">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+}

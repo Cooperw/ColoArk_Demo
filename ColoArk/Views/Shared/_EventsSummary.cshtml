@@ -1,0 +1,40 @@
+﻿<div class="w3-white w3-margin">
+    <div class="w3-container w3-padding w3-black">
+        <h4>Events</h4>
+    </div>
+    <ul class="w3-ul w3-hoverable w3-white">
+        <a style="text-decoration: none;" asp-controller="Giveaway" asp-action="Index">
+            <li class="w3-padding-16">
+                <img src="~/images/rock_drake_egg.png" alt="Image" class="w3-left w3-margin-right" style="width:50px">
+                <span class="w3-large">Weekly Giveaway</span>
+                <br>
+                <span>Free stuff every week!</span>
+            </li>
+        </a>
+        <a style="text-decoration: none;" asp-controller="Home" asp-action="Index" asp-route-type="@Post.PostType.ScavengerHunt">
+            <li class="w3-padding-16">
+                <img src="~/images/magnifying_glass.png" alt="Image" class="w3-left w3-margin-right" style="width:50px">
+                <span class="w3-large">Scavenger Hunt</span>
+                <br>
+                <span>Scour Ragnarok in search of prizes.</span>
+            </li>
+        </a>
+        <a style="text-decoration: none;" asp-controller="Home" asp-action="Index" asp-route-type="@Post.PostType.Labyrinth">
+            <li class="w3-padding-16">
+                <img src="~/images/fab_pistol.png" alt="Image" class="w3-left w3-margin-right" style="width:50px">
+                <span class="w3-large">Labyrinth</span>
+                <br>
+                <span>Extreme, in difficulty and prizes.</span>
+            </li>
+        </a>
+        <a style="text-decoration: none;" asp-controller="Home" asp-action="Index" asp-route-type="@Post.PostType.AdminWar">
+            <li class="w3-padding-16">
+                <img src="~/images/tek_chest.png" alt="Image" class="w3-left w3-margin-right" style="width:50px">
+                <span class="w3-large">Admin War</span>
+                <br>
+                <span>Battle alongside admins with provided weapons and creatures.</span>
+            </li>
+        </a>
+    </ul>
+</div>
+<hr>

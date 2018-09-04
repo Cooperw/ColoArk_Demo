@@ -1,0 +1,58 @@
+﻿@model List<Post>
+@using Microsoft.AspNetCore.Html
+
+@if(!Model.Any()){
+    <p>Whoa There! There are no posts, this page is likely under construction.</p>
+}
+
+@foreach (Post post in Model)
+{
+    <!-- Blog entry -->
+    <div class="w3-container w3-white w3-margin w3-padding-large">
+
+        <div class="w3-center">
+            <h3>@post.Title</h3>
+            @if (string.IsNullOrEmpty(post.Subtitle))
+            {
+                <h5><span class="w3-opacity">@post.Date.ToString("MMM dd, yyyy") - @post.Type</span></h5>
+            }
+            else
+            {
+                <h5>@post.Subtitle, <span class="w3-opacity">@post.Date.ToString("MMM dd, yyyy") - @post.Type</span></h5>
+            }
+        </div>
+
+        <div class="w3-justify">
+            @if (!post.Picture.Equals("none"))
+            {
+                <img src="~/images/@post.Picture" alt="@post.Title Picture" style="width:100%" class="w3-padding-16">
+            }
+            @(new HtmlString(post.Description))
+            <p class="w3-clear"></p>
+
+        </div>
+    </div>
+    <hr />
+}
+<!-- Blog entry
+<div class="w3-container w3-white w3-margin w3-padding-large">
+    <div class="w3-center">
+        <h3>OUR FIRST POST OLD</h3>
+        <h5>This is out first official post, <span class="w3-opacity">May 5, 2018</span></h5>
+    </div>
+
+    <div class="w3-justify">
+        <img src="~/images/light_arklogo.jpg" alt="Ark Logo" style="width:100%" class="w3-padding-16">
+        <p><strong>Hello!</strong> Welcome to ColoArk!</p>
+        <p>
+            We are very excited to announce the birth of our new Ark Server. Our Ragnarok PvP server has accelerated settings
+            and features ammenties such as PvE tradehubs, public forges, weekly giveaways, and competitions. Head over to the
+            <a asp-controller="Rules" asp-action="Index">Rules & Info</a>
+            page to get started.
+        </p>
+        <p>-CWSharkbones</p>
+        <p class="w3-clear"></p>
+
+    </div>
+</div>
+<hr />-->

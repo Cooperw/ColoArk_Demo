@@ -1,0 +1,104 @@
+﻿@model ColoArk.Models.User
+
+@{
+    string changeAction = ViewBag.changeAction;
+    switch (changeAction)
+    {
+        case "updated":
+            <div class="alert alert-success alert-auto-remove" role="alert">
+                <p>Your profile has been updated</p>
+            </div>
+            break;
+    }
+}
+<div class="col-md-4 pull-right"></div>
+<div class="col-md-4 pull-left"></div>
+<div class="col-md-4">
+    @if (Model.AuthLevel == ColoArk.Models.User.AuthType.Admin)
+    {
+        <img src="~/images/@Model.ProfilePic" alt="AdminPic" class="w3-circle" style="width:100%;max-width:100px">
+    }
+    <h2>User</h2>
+
+    <hr />
+    <table class="table">
+        <tr>
+            <th>
+                ID
+            </th>
+            <td>
+                @Model.ID
+            </td>
+        </tr>
+        <tr>
+            <th>
+                Email
+            </th>
+            <td>
+                @Model.Email
+            </td>
+        </tr>
+        <tr>
+            <th>
+                PSN
+            </th>
+            <td>
+                @Model.PSN
+            </td>
+        </tr>
+        <tr>
+            <th>
+                ImplantID
+            </th>
+            <td>
+                @Model.ImplantID
+            </td>
+        </tr>
+        <tr>
+            <th>
+                Mailbox Pin
+            </th>
+            <td>
+                @Model.Pin
+            </td>
+        </tr>
+        <tr>
+            <th>
+                Auth Level
+            </th>
+            <td>
+                @Model.AuthLevel
+            </td>
+        </tr>
+        @if (Model.AuthLevel == ColoArk.Models.User.AuthType.Admin)
+        {
+            <tr>
+                <th>
+                    Bio
+                </th>
+                <td>@Model.Bio</td>
+            </tr>
+            <tr>
+                <th>
+                    Pic_Name
+                </th>
+                <td>@Model.ProfilePic</td>
+            </tr>
+        }
+        <tr>
+            <th>
+                Donator Status
+            </th>
+            @if (Model.IsDonator)
+            {
+                <td>We appreciate your donation.</td>
+            }
+            else
+            {
+                <td>Not Yet ;)</td>
+            }
+        </tr>
+    </table>
+    <a asp-controller="User" asp-action="Edit" asp-route-id="@Model.ID" class="btn btn-success pull-right">Edit</a>
+</div>
+
